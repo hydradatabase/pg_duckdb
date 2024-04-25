@@ -14,7 +14,7 @@ SRCS = src/quack_heap_seq_scan.cpp \
 
 OBJS = $(subst .cpp,.o, $(SRCS))
 
-REGRESS = basic
+REGRESS = $(subst .sql,,$(subst sql/,,$(wildcard sql/*.sql)))
 
 PG_CONFIG ?= pg_config
 

@@ -1,0 +1,103 @@
+CREATE EXTENSION quack;
+-- test numeric types
+CREATE TABLE t (
+  si smallint,
+  i integer,
+  bi bigint,
+  deci decimal(12,10),
+  n numeric(8,5),
+  r real,
+  dbl double precision,
+  ss smallserial,
+  s serial,
+  bs bigserial
+);
+INSERT INTO t (si, i, bi, deci, n, r, dbl)
+VALUES (1, 2, 3, 4, 5, 6, 7);
+SELECT si FROM t;
+ si 
+----
+  1
+(1 row)
+
+SELECT i FROM t;
+ i 
+---
+ 2
+(1 row)
+
+SELECT bi FROM t;
+ bi 
+----
+  3
+(1 row)
+
+SELECT deci FROM t;
+     deci     
+--------------
+ 4.0000000000
+(1 row)
+
+SELECT n FROM t;
+    n    
+---------
+ 5.00000
+(1 row)
+
+SELECT r FROM t;
+ r 
+---
+ 6
+(1 row)
+
+SELECT dbl FROM t;
+ dbl 
+-----
+   7
+(1 row)
+
+SELECT ss FROM t;
+ ss 
+----
+  1
+(1 row)
+
+SELECT s FROM t;
+ s 
+---
+ 1
+(1 row)
+
+SELECT bs FROM t;
+ bs 
+----
+  1
+(1 row)
+
+SELECT * FROM t;
+ si | i | bi |     deci     |    n    | r | dbl | ss | s | bs 
+----+---+----+--------------+---------+---+-----+----+---+----
+  1 | 2 |  3 | 4.0000000000 | 5.00000 | 6 |   7 |  1 | 1 |  1
+(1 row)
+
+SELECT
+  pg_typeof(si) si_type
+  , pg_typeof(i) i_type
+  , pg_typeof(bi) bi_type
+  , pg_typeof(deci) deci_type
+  , scale(deci) deci_scale
+  , pg_typeof(n) n_type
+  , scale(n) n_scale
+  , pg_typeof(r) r_type
+  , pg_typeof(dbl) dbl_type
+  , pg_typeof(ss) ss_type
+  , pg_typeof(s) s_type
+  , pg_typeof(bs) bs_type
+FROM t;
+ si_type  | i_type  | bi_type | deci_type | deci_scale | n_type  | n_scale | r_type |     dbl_type     | ss_type  | s_type  | bs_type 
+----------+---------+---------+-----------+------------+---------+---------+--------+------------------+----------+---------+---------
+ smallint | integer | bigint  | numeric   |         10 | numeric |       5 | real   | double precision | smallint | integer | bigint
+(1 row)
+
+DROP TABLE t;
+DROP EXTENSION quack;
